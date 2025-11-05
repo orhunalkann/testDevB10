@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animal Run Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Animal Run Planner</h1>
+        <p>
+          Coordinate your running sessions by picking an animal persona and sharing
+the same game code across devices.
+        </p>
+      </header>
+
+      <section class="game-selector">
+        <label for="gameId">Shared game code</label>
+        <input
+          id="gameId"
+          type="text"
+          placeholder="e.g. morning-crew"
+          value="community-run"
+        />
+        <button id="loadGame">Join</button>
+      </section>
+
+      <section class="player-form">
+        <h2>Join or Update Your Runner</h2>
+        <form id="playerForm">
+          <label for="playerName">Runner name</label>
+          <input id="playerName" type="text" required placeholder="Your name" />
+
+          <label for="animalChoice">Animal persona</label>
+          <select id="animalChoice" required>
+            {% for animal in animals %}
+            <option value="{{ animal.id }}">{{ animal.label }}</option>
+            {% endfor %}
+          </select>
+
+          <label for="pace">Target pace / notes</label>
+          <input id="pace" type="text" placeholder="5:00 min/km tempo" />
+
+          <button type="submit">Save runner</button>
+        </form>
+        <div id="formMessage" role="alert" aria-live="polite"></div>
+      </section>
+
+      <section class="players">
+        <h2>Current Runners</h2>
+        <div class="meta">
+          <span id="updatedAt">Waiting for updates…</span>
+          <button id="refresh">Refresh now</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Runner</th>
+              <th>Animal</th>
+              <th>Pace / Notes</th>
+              <th>Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="playersTable"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>
